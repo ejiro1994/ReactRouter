@@ -8,9 +8,9 @@ const Navbar = () => {
         <nav className="nav-wrapper blue darken-4">
             <div className="container">
                 <ul className="left">
-                {/* <a href="" className="logo" style={{fontSize:60}}>o</a> */}
+                <a href="" className="logo" style={{fontSize:60}}>o</a>
                 {/* <h2>hello</h2> */}
-                <svg><circle cx="25" cy="75" r="20"/></svg>
+                {/* <svg><circle cx="25" cy="75" r="20"/></svg> */}
                 </ul>
                 <ul className="right">
                     <li><Link to="/">Popular</Link></li>
