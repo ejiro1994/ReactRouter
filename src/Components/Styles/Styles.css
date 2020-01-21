@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'Potra';
+    src: url("Fonts/Potra.otf") format("opentype")
+}
+
+
+.logo {
+    font-family: Potra;
+    font-size: 10rem;
+  
+}
