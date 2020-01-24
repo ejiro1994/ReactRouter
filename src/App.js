@@ -5,13 +5,7 @@ import Popular from './Components/Popular'
 import Upcoming from './Components/Upcoming'
 import TopRated from './Components/TopRated'
 
-
-
-
-
 class App extends Component {
-
-
   render() {
 
     return (

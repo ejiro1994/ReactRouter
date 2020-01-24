@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import MovieCard from './Components/MovieCard'
 
 class Popular extends Component {
 
@@ -7,18 +8,74 @@ class Popular extends Component {
         super(props)
 
     this.state = {
+        loading: true,
         posts: [],
+        error: null
 
     }
 }
     componentDidMount() {
-        axios.get('https://api.themoviedb.org/3/discover/movie?api_key=fa141d49d3a1e439372e15d61f4d4607')
-            .then(res => {
 
+        // axios.get('https://api.themoviedb.org/3/discover/movie?api_key=fa141d49d3a1e439372e15d61f4d4607')
+        //     .then(res => {
+        //         setTimeout(() => {
+        //             this.setState({
+        //                 posts: res.data.results,
+        //                 loading: false
+        //             })
+        //         }, 500)
+             
+        //     })
+        
+        const fetchMovies = async () => {
+
+            // url = 'https://api.themoviedb.org/3/discover/movie?api_key=fa141d49d3a1e439372e15d61f4d4607&sort_by=popularity.desc' // app.get('/movie')
+            // url = 'https://api.themoviedb.org/3/discover/movie/fa141d49d3a1e439372e15d61f4d4607/1' // app.get('/movie/:apiKey/:movieId')
+
+
+            const response = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=fa141d49d3a1e439372e15d61f4d4607&page=4`)  
+            return response.data.results
+        }
+
+        const fetchData = async () => {
+            try {
+                const movies = await fetchMovies()
+                console.log(movies)
                 this.setState({
-                    posts: res.data.results
+                    loading: false,
+                    posts: movies
                 })
-            })
+            } catch (e) {
+                console.log(e.response.status)
+
+                if(e.response.status === 401) {
+                    this.setState({
+                        loading: false,
+                        error: 'ERROR FETCHING DATA'
+                    })
+                } else if(e.response.status === 404) {
+                    this.setState({
+                        loading: false,
+                        error: 'ERROR DATA NOT FOUND'
+                    })
+                }
+                // this.setState({
+                //     loading: false,
+                //     error: 'ERROR FETCHING DATA'
+                // })
+            }
+            
+
+            // const movie = await fetchMovie(movies[0].id)
+        }
+
+        // const fetchMovie = async id => {
+        //     const response = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=fa141d49d3a1e439372e15d61f4d4607&movieId=${id}`)   
+        //     return response.data
+        // }
+
+        fetchData()
+
     }
 
     // this.state.posts = res.data.results
@@ -46,17 +103,15 @@ class Popular extends Component {
     
 
     render() {
+
+        if(this.state.loading) return <h1>Loading...</h1>
+        else if(this.state.error) return <h1>{this.state.error}</h1>
+
         let posts = this.state.posts
         const postList = posts.length ? (
             posts.map(post => {
                 return (
-                    <div className="post card grey" key={post.id}>
-                    <div className="card-content">
-                        <span className="card-title black-text">{post.title}</span>
-                        <img src={ `https://image.tmdb.org/t/p/w200/${post.poster_path.substring(1)}`    } alt={ post.original_title }/>
-                        <p className="black-text">{post.overview}</p>
-                    </div>
-                    </div>
+                 < MovieCard />
                 )
             })
         ) : (
