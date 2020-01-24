@@ -66,6 +66,8 @@ class App2 extends React.Component {
         return (
             <div>
                 <ul>
+                    <p>Categories</p>
+                    {/* category buttons */}
                     <li onClick={this.resetListToFullMovieList}>All</li>
                     <li onClick={() => this.filterByPopularity(40)}>Popular</li>
                 </ul>
